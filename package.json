@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -e .env.development next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "prisma:studio": "dotenv -e .env.development -- npx prisma studio",
     "prisma:dev:gene-migration": "dotenv -e .env.development -- npx prisma migrate dev",
     "prisma:dev:migrate": "dotenv -e .env.development -- npx prisma migrate dev deploy"
   },
