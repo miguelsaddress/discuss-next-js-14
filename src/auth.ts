@@ -37,3 +37,6 @@ export const {
     },
   },
 });
+
+// See how to integrate office auth with JWT
+// https://medium.com/simform-engineering/office-365-login-in-next-js-using-nextauth-js-beb1f18e05d8
