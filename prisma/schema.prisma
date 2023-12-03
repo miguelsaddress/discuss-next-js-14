@@ -10,44 +10,44 @@ datasource db {
 
 model Account {
   id                  String  @id @default(cuid())
-  user_id             String
+  userId             String  @map(name: "user_id")
   type                String
   provider            String
-  provider_account_id String
-  refresh_token       String?
-  access_token        String?
-  expires_at          Int?
-  token_type          String?
+  providerAccountId String  @map(name: "provider_account_id")
+  refreshToken       String? @map(name: "refresh_token")
+  accessToken        String? @map(name: "access_token")
+  expiresAt          Int?    @map(name: "expires_at")
+  tokenType          String? @map(name: "token_type")
   scope               String?
-  id_token            String?
-  session_state       String?
+  idToken            String? @map(name: "id_token")
+  sessionState       String? @map(name: "session_state")
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt      @map(name: "updated_at")
 
 
-  user                User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user                User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, provider_account_id])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
   id            String   @id @default(cuid())
-  session_token String   @unique
-  user_id       String
+  sessionToken String   @unique  @map(name: "session_token")
+  userId       String            @map(name: "user_id")
   expires       DateTime
-  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
   id                String    @id @default(cuid())
   name              String?
   email             String?   @unique
-  email_verified_at DateTime?
+  emailVerified     DateTime? @map(name: "email_verified_at")
   image             String?
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt      @map(name: "updated_at")
 
   accounts          Account[]
   sessions          Session[]
@@ -69,37 +69,37 @@ model Topic {
   description String
   posts       Post[]
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt      @map(name: "updated_at")
 }
 
 model Post {
   id      String      @id @default(cuid())
   title   String
   content String
-  user_id  String
-  topic_id String
+  userId  String     @map(name: "user_id")
+  topicId String     @map(name: "topic_id")
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt      @map(name: "updated_at")
 
-  user     User       @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  topic    Topic      @relation(fields: [topic_id], references: [id])
+  user     User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic    Topic      @relation(fields: [topicId], references: [id])
   comments Comment[]
 }
 
 model Comment {
   id          String  @id @default(cuid())
   content     String
-  post_id     String
-  user_id     String
-  parent_id   String?
+  postId     String  @map(name: "post_id")
+  userId     String  @map(name: "user_id")
+  parentId   String? @map(name: "parent_id")
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-  parent   Comment?  @relation("Comments", fields: [parent_id], references: [id], onDelete: Cascade)
-  post     Post      @relation(fields: [post_id], references: [id], onDelete: Cascade)
-  user     User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  parent   Comment?  @relation("Comments", fields: [parentId], references: [id], onDelete: Cascade)
+  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   children Comment[] @relation("Comments")
 }
