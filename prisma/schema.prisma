@@ -10,17 +10,17 @@ datasource db {
 
 model Account {
   id                  String  @id @default(cuid())
-  userId             String  @map(name: "user_id")
+  userId              String  @map(name: "user_id")
   type                String
   provider            String
-  providerAccountId String  @map(name: "provider_account_id")
-  refreshToken       String? @map(name: "refresh_token")
-  accessToken        String? @map(name: "access_token")
-  expiresAt          Int?    @map(name: "expires_at")
-  tokenType          String? @map(name: "token_type")
+  providerAccountId   String  @map(name: "provider_account_id")
+  refreshToken        String? @map(name: "refresh_token")
+  access_token        String? @map(name: "access_token") // needs to be snake_cased
+  expiresAt           Int?    @map(name: "expires_at")
+  token_type          String? @map(name: "token_type") // needs to be snake_cased
   scope               String?
-  idToken            String? @map(name: "id_token")
-  sessionState       String? @map(name: "session_state")
+  idToken             String? @map(name: "id_token")
+  sessionState        String? @map(name: "session_state")
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt      @map(name: "updated_at")
@@ -33,8 +33,8 @@ model Account {
 
 model Session {
   id            String   @id @default(cuid())
-  sessionToken String   @unique  @map(name: "session_token")
-  userId       String            @map(name: "user_id")
+  sessionToken  String   @unique  @map(name: "session_token")
+  userId        String            @map(name: "user_id")
   expires       DateTime
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
