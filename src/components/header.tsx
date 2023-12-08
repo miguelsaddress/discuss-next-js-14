@@ -1,8 +1,19 @@
 import Link from 'next/link';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Input, Button, Avatar } from '@nextui-org/react';
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Input,
+  Button,
+  Avatar,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@nextui-org/react';
 import { auth } from '@/auth';
 import { paths } from '@/paths';
-import { signIn } from '@/server-actions';
+import { signIn, signOut } from '@/server-actions';
 
 export default async function Header() {
   const session = await auth();
@@ -15,7 +26,18 @@ export default async function Header() {
 
   const authContent = isUserSignedIn ? (
     <NavbarItem>
-      <Avatar src={imageSrc} />
+      <Popover placement="left">
+        <PopoverTrigger>
+          <Avatar src={imageSrc} />
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="p-4">
+            <form action={signOut}>
+              <Button type="submit">Sign Out</Button>
+            </form>
+          </div>
+        </PopoverContent>
+      </Popover>
     </NavbarItem>
   ) : (
     <>
