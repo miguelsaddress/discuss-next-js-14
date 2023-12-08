@@ -8,27 +8,35 @@ export default function HeaderAuth() {
   const session = useSession();
 
   const user = session?.data?.user;
-  const isUserSignedIn = !!user;
   const imageSrc = user?.image || undefined;
 
   const signInAction = signIn.bind(null, 'github');
+  const isUserAuthenticated = session.status === 'authenticated';
+  const isSessionLoading = session.status === 'loading';
 
-  return isUserSignedIn ? (
-    <NavbarItem>
-      <Popover placement="left">
-        <PopoverTrigger>
-          <Avatar src={imageSrc} />
-        </PopoverTrigger>
-        <PopoverContent>
-          <div className="p-4">
-            <form action={signOut}>
-              <Button type="submit">Sign Out</Button>
-            </form>
-          </div>
-        </PopoverContent>
-      </Popover>
-    </NavbarItem>
-  ) : (
+  if (isSessionLoading) {
+    return null;
+  }
+  if (isUserAuthenticated) {
+    return (
+      <NavbarItem>
+        <Popover placement="left">
+          <PopoverTrigger>
+            <Avatar src={imageSrc} />
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="p-4">
+              <form action={signOut}>
+                <Button type="submit">Sign Out</Button>
+              </form>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </NavbarItem>
+    );
+  }
+
+  return (
     <>
       <NavbarItem>
         <form action={signInAction}>
