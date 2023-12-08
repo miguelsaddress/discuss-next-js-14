@@ -14,7 +14,7 @@ export default async function Header() {
       <NavbarContent justify="center">
         <NavbarItem>
           {/* Todo when we have posts to search... */}
-          <Input />
+          <Input id="search" name="search" type="search" placeholder="Search..." />
         </NavbarItem>
       </NavbarContent>
 
