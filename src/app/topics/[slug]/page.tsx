@@ -1,4 +1,3 @@
-import FormButton from '@/components/common/form-button';
 import PostCreateForm from '@/components/posts/post-create-from';
 
 type Props = {
