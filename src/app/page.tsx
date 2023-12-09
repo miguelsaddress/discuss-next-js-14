@@ -1,5 +1,6 @@
 import TopicCreateForm from '@/components/topics/topic-create-form';
 import TopicList from '@/components/topics/topic-list';
+import { fetchAllTopics } from '@/db/queries/topic';
 import { Divider } from '@nextui-org/react';
 
 export default function Home() {
@@ -12,7 +13,7 @@ export default function Home() {
         <TopicCreateForm />
         <Divider className="my-2" />
         <h3 className="text-lg">Topics</h3>
-        <TopicList />
+        <TopicList fetchData={fetchAllTopics} />
       </div>
     </div>
   );

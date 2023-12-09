@@ -2,11 +2,14 @@
 
 import Link from 'next/link';
 import { Chip } from '@nextui-org/react';
-import { db } from '@/db';
 import { paths } from '@/paths';
+import type { Topic } from '@prisma/client';
 
-export default async function TopicList() {
-  const topics = await db.topic.findMany();
+type Props = {
+  fetchData: () => Promise<Topic[]>;
+};
+export default async function TopicList({ fetchData }: Props) {
+  const topics = await fetchData();
 
   const renderedTopics = topics.map((t, i) => {
     return (

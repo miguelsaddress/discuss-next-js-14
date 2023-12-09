@@ -77,12 +77,6 @@ export async function createPost(
   try {
     // await new Promise((r) => setTimeout(r, 2500));
     // throw new Error('Failed....');
-    const topic = await db.topic.findFirstOrThrow({
-      where: {
-        slug: topicSlug,
-      },
-    });
-
     post = await db.post.create({
       data: {
         title: validation.data.title,
