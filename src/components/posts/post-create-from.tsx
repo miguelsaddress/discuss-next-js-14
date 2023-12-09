@@ -64,7 +64,7 @@ export default function PostCreateForm({ topicSlug }: Props) {
                 name="content"
                 label="Content"
                 labelPlacement="outside"
-                placeholder="Describe your topic"
+                placeholder="Content of your post"
                 isInvalid={!!formState.errors.content?.length}
                 errorMessage={formState.errors.content?.join(', ')}
                 value={content}
