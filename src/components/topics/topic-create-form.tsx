@@ -1,10 +1,11 @@
 'use client';
 
-import { createTopic } from '@/server-actions';
-import { MAX_TOPIC_DESCRIPTION_LENGTH, MAX_TOPIC_NAME_LENGTH } from '@/server-actions/create-topic-constants';
-import { Button, Input, Popover, PopoverContent, PopoverTrigger, Textarea } from '@nextui-org/react';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
+import { Button, Input, Popover, PopoverContent, PopoverTrigger, Textarea } from '@nextui-org/react';
+import { createTopic } from '@/server-actions';
+import { MAX_TOPIC_DESCRIPTION_LENGTH, MAX_TOPIC_NAME_LENGTH } from '@/server-actions/create-topic-constants';
+import FormButton from '@/components/common/form-button';
 
 export default function TopicCreateForm() {
   const [formState, action] = useFormState(createTopic, { errors: {} });
@@ -70,7 +71,7 @@ export default function TopicCreateForm() {
                 </div>
               ) : null}
 
-              <Button type="submit">Submit</Button>
+              <FormButton>Submit</FormButton>
             </div>
           </form>
         </PopoverContent>

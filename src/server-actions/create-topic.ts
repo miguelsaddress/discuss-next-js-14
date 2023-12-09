@@ -54,6 +54,8 @@ export async function createTopic(formState: CreateTopicFormState, formData: For
   let topic: Topic;
 
   try {
+    // await new Promise((r) => setTimeout(r, 2500));
+    // throw new Error('Failed....');
     topic = await db.topic.create({
       data: {
         slug: validation.data.name,
