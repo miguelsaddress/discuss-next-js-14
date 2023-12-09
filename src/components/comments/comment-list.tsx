@@ -2,11 +2,12 @@ import CommentShow from '@/components/comments/comment-show';
 import type { CommentWithData } from '@/db/queries/comment';
 
 type Props = {
-  comments: CommentWithData[];
+  fetchData: () => Promise<CommentWithData[]>;
 };
 
 // TODO: Get a list of comments from somewhere
-export default function CommentList({ comments }: Props) {
+export default async function CommentList({ fetchData }: Props) {
+  const comments = await fetchData();
   const topLevelComments = comments.filter((comment) => comment.parentId === null);
   const renderedComments = topLevelComments.map((comment) => {
     return <CommentShow key={comment.id} commentId={comment.id} comments={comments} />;

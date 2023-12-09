@@ -16,8 +16,6 @@ type Props = {
 export default async function PostShowPage({ params }: Props) {
   const { slug, postId } = params;
 
-  const comments = await fetchAllCommentsByPostId(postId);
-
   return (
     <div className="space-y-3">
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
@@ -25,7 +23,7 @@ export default async function PostShowPage({ params }: Props) {
       </Link>
       <PostShow fetchPost={() => findPostById(postId)} />
       <CommentCreateForm postId={postId} topicSlug={slug} startOpen />
-      <CommentList comments={comments} />
+      <CommentList fetchData={() => fetchAllCommentsByPostId(postId)} />
     </div>
   );
 }
