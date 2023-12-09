@@ -4,6 +4,7 @@ import CommentList from '@/components/comments/comment-list';
 import CommentCreateForm from '@/components/comments/comment-create-form';
 import { paths } from '@/paths';
 import { findPostById } from '@/db/queries/post';
+import { fetchAllCommentsByPostId } from '@/db/queries/comment';
 
 type Props = {
   params: {
@@ -14,7 +15,7 @@ type Props = {
 
 export default async function PostShowPage({ params }: Props) {
   const { slug, postId } = params;
-
+  const comments = await fetchAllCommentsByPostId(postId);
   return (
     <div className="space-y-3">
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
@@ -22,7 +23,7 @@ export default async function PostShowPage({ params }: Props) {
       </Link>
       <PostShow fetchPost={() => findPostById(postId)} />
       <CommentCreateForm postId={postId} topicSlug={slug} startOpen />
-      {/* <CommentList comments={comments} /> */}
+      <CommentList comments={comments} topicSlug={slug} />
     </div>
   );
 }
