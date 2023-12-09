@@ -4,7 +4,6 @@ import CommentList from '@/components/comments/comment-list';
 import CommentCreateForm from '@/components/comments/comment-create-form';
 import { paths } from '@/paths';
 import { findPostById } from '@/db/queries/post';
-import { fetchAllCommentsByPostId } from '@/db/queries/comment';
 
 type Props = {
   params: {
@@ -23,7 +22,7 @@ export default async function PostShowPage({ params }: Props) {
       </Link>
       <PostShow fetchPost={() => findPostById(postId)} />
       <CommentCreateForm postId={postId} topicSlug={slug} startOpen />
-      <CommentList fetchData={() => fetchAllCommentsByPostId(postId)} />
+      <CommentList postId={postId} />
     </div>
   );
 }

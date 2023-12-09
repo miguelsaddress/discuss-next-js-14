@@ -1,5 +1,6 @@
 import { db } from '@/db';
 import type { Comment } from '@prisma/client';
+import { cache } from 'react';
 
 export type CreateCommentArgs = Pick<Comment, 'content' | 'postId' | 'userId' | 'parentId'>;
 export async function createNewComment(args: CreateCommentArgs): Promise<Comment> {
@@ -21,7 +22,8 @@ export type CommentWithData = Comment & {
   post: { topic: { slug: string } };
 };
 
-export async function fetchAllCommentsByPostId(postId: string): Promise<CommentWithData[]> {
+export const fetchCommentsByPostId = cache(async (postId: string): Promise<CommentWithData[]> => {
+  console.log('Making a query!');
   return db.comment.findMany({
     where: {
       postId,
@@ -44,4 +46,4 @@ export async function fetchAllCommentsByPostId(postId: string): Promise<CommentW
       },
     },
   });
-}
+});
