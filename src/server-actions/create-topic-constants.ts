@@ -1,0 +1,5 @@
+export const MIN_TOPIC_NAME_LENGTH = 3;
+export const MAX_TOPIC_NAME_LENGTH = 20;
+
+export const MIN_TOPIC_DESCRIPTION_LENGTH = 10;
+export const MAX_TOPIC_DESCRIPTION_LENGTH = 250;
