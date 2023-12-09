@@ -6,11 +6,10 @@ import type { CommentWithData } from '@/db/queries/comment';
 type Props = {
   commentId: string;
   comments: CommentWithData[];
-  topicSlug: string;
 };
 
 // TODO: Get a list of comments
-export default function CommentShow({ commentId, comments, topicSlug }: Props) {
+export default function CommentShow({ commentId, comments }: Props) {
   const comment = comments.find((c) => c.id === commentId);
 
   if (!comment) {
@@ -19,7 +18,7 @@ export default function CommentShow({ commentId, comments, topicSlug }: Props) {
 
   const children = comments.filter((c) => c.parentId === commentId);
   const renderedChildren = children.map((child) => {
-    return <CommentShow key={child.id} commentId={child.id} comments={comments} topicSlug={topicSlug} />;
+    return <CommentShow key={child.id} commentId={child.id} comments={comments} />;
   });
 
   return (
@@ -30,7 +29,7 @@ export default function CommentShow({ commentId, comments, topicSlug }: Props) {
           <p className="text-sm font-medium text-gray-500">{comment.user.name}</p>
           <p className="text-gray-900">{comment.content}</p>
 
-          <CommentCreateForm topicSlug={topicSlug} postId={comment.postId} parentId={comment.id} />
+          <CommentCreateForm topicSlug={comment.post.topic.slug} postId={comment.postId} parentId={comment.id} />
         </div>
       </div>
       <div className="pl-4">{renderedChildren}</div>

@@ -1,17 +1,15 @@
 import CommentShow from '@/components/comments/comment-show';
-import { CommentWithData } from '@/db/queries/comment';
-import type { Comment } from '@prisma/client';
+import type { CommentWithData } from '@/db/queries/comment';
 
 type Props = {
   comments: CommentWithData[];
-  topicSlug: string;
 };
 
 // TODO: Get a list of comments from somewhere
-export default function CommentList({ comments, topicSlug }: Props) {
+export default function CommentList({ comments }: Props) {
   const topLevelComments = comments.filter((comment) => comment.parentId === null);
   const renderedComments = topLevelComments.map((comment) => {
-    return <CommentShow key={comment.id} commentId={comment.id} comments={comments} topicSlug={topicSlug} />;
+    return <CommentShow key={comment.id} commentId={comment.id} comments={comments} />;
   });
 
   return (

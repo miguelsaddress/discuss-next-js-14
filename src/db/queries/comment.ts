@@ -18,7 +18,9 @@ export type CommentWithData = Comment & {
     name: string | null;
     image: string | null;
   };
+  post: { topic: { slug: string } };
 };
+
 export async function fetchAllCommentsByPostId(postId: string): Promise<CommentWithData[]> {
   return db.comment.findMany({
     where: {
@@ -29,6 +31,15 @@ export async function fetchAllCommentsByPostId(postId: string): Promise<CommentW
         select: {
           name: true,
           image: true,
+        },
+      },
+      post: {
+        select: {
+          topic: {
+            select: {
+              slug: true,
+            },
+          },
         },
       },
     },
