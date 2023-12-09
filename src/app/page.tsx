@@ -3,6 +3,9 @@ import TopicList from '@/components/topics/topic-list';
 import { fetchAllTopics } from '@/db/queries/topic';
 import { Divider } from '@nextui-org/react';
 
+const TEN_SECONDS = 10;
+export const revalidate = TEN_SECONDS;
+
 export default function Home() {
   return (
     <div className="grid grid-cols-4 gap-4 p-4">
