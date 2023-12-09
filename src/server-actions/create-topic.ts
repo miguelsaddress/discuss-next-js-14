@@ -1,8 +1,16 @@
 'use server';
 
 import { z } from 'zod';
+
+import type { Topic } from '@prisma/client';
+import { db } from '@/db';
+
 import { MIN_TOPIC_NAME_LENGTH, MAX_TOPIC_NAME_LENGTH } from './create-topic-constants';
 import { auth } from '@/auth';
+
+import { paths } from '@/paths';
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const createTopicSchema = z.object({
   name: z
@@ -22,16 +30,6 @@ export type CreateTopicFormState = {
 };
 
 export async function createTopic(formState: CreateTopicFormState, formData: FormData): Promise<CreateTopicFormState> {
-  const session = await auth();
-
-  if (!session?.user) {
-    return {
-      errors: {
-        _form: ['You must be signed in to do this'],
-      },
-    };
-  }
-
   const validation = createTopicSchema.safeParse({
     name: formData.get('name'),
     description: formData.get('description'),
@@ -43,7 +41,42 @@ export async function createTopic(formState: CreateTopicFormState, formData: For
     };
   }
 
-  return { errors: {} };
+  const session = await auth();
+
+  if (!session?.user) {
+    return {
+      errors: {
+        _form: ['You must be signed in to do this'],
+      },
+    };
+  }
+
+  let topic: Topic;
+
+  try {
+    topic = await db.topic.create({
+      data: {
+        slug: validation.data.name,
+        description: validation.data.description,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      return {
+        errors: {
+          _form: [error.message],
+        },
+      };
+    }
+    return {
+      errors: {
+        _form: [`The topic couldn't be created`],
+      },
+    };
+  }
+
   // revalidate home page after creation because
   // they are listed there
+  revalidatePath(paths.home());
+  redirect(paths.topicShow(topic.slug));
 }
