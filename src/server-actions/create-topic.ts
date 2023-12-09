@@ -5,7 +5,12 @@ import { z } from 'zod';
 import type { Topic } from '@prisma/client';
 import { db } from '@/db';
 
-import { MIN_TOPIC_NAME_LENGTH, MAX_TOPIC_NAME_LENGTH } from './create-topic-constants';
+import {
+  MIN_TOPIC_NAME_LENGTH,
+  MAX_TOPIC_NAME_LENGTH,
+  MIN_TOPIC_DESCRIPTION_LENGTH,
+  MAX_TOPIC_DESCRIPTION_LENGTH,
+} from './create-topic-constants';
 import { auth } from '@/auth';
 
 import { paths } from '@/paths';
@@ -18,10 +23,10 @@ const createTopicSchema = z.object({
     .min(MIN_TOPIC_NAME_LENGTH)
     .max(MAX_TOPIC_NAME_LENGTH)
     .regex(/^[a-z-]+$/, { message: 'A topic name must be all lowercase and can include dashes, but no spaces' }),
-  description: z.string().min(10).max(250),
+  description: z.string().min(MIN_TOPIC_DESCRIPTION_LENGTH).max(MAX_TOPIC_DESCRIPTION_LENGTH),
 });
 
-export type CreateTopicFormState = {
+type CreateTopicFormState = {
   errors: {
     name?: string[];
     description?: string[];
