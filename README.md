@@ -1,3 +1,13 @@
+# Disclaimer
+
+Project based on the Course of Stephen Grider on NextJS 14. Does not represent personal impressions on what is a good or a bad practice in production ready applications
+
+# Init prisma in dev
+
+run `npm run prisma:dev:migrate` to generate the sqlite DB in a dev env
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
