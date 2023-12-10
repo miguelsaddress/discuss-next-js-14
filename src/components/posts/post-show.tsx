@@ -1,4 +1,3 @@
-import { db } from '@/db';
 import type { Post } from '@prisma/client';
 import { notFound } from 'next/navigation';
 
@@ -7,6 +6,8 @@ type Props = {
 };
 
 export default async function PostShow({ fetchPost }: Props) {
+  // await new Promise((r) => setTimeout(r, 5500));
+
   const post = await fetchPost();
 
   if (!post) {
