@@ -23,6 +23,7 @@ export default async function PostList({ fetchData }: Props) {
           <div className="flex flex-row gap-8">
             <p className="text-xs text-gray-400">By {post.user.name}</p>
             <p className="text-xs text-gray-400">{post._count.comments} comments</p>
+            <p className="text-xs text-gray-400">in: {post.topic.slug}</p>
           </div>
         </Link>
       </div>
