@@ -35,6 +35,20 @@ export async function findPostById(postId: string): Promise<Post | null> {
     where: { id: postId },
   });
 }
-export async function fetchTopPosts(): Promise<Post[]> {
-  return [];
+
+export async function fetchTopPosts(): Promise<PostWithData[]> {
+  return db.post.findMany({
+    // order by comment count desc, take top 5
+    orderBy: {
+      comments: {
+        _count: 'desc',
+      },
+    },
+    include: {
+      user: { select: { name: true } },
+      topic: { select: { slug: true } },
+      _count: { select: { comments: true } },
+    },
+    take: 5,
+  });
 }
