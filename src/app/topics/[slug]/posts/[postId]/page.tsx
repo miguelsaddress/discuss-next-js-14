@@ -5,7 +5,7 @@ import CommentCreateForm from '@/components/comments/comment-create-form';
 import { paths } from '@/paths';
 import { findPostById } from '@/db/queries/post';
 import { Suspense } from 'react';
-import { Spinner } from '@nextui-org/react';
+import PostShowSkeleton from '@/components/posts/post-show-skeleton';
 
 type Props = {
   params: {
@@ -22,16 +22,7 @@ export default async function PostShowPage({ params }: Props) {
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
         {'< '}Back to {slug}
       </Link>
-      <Suspense
-        fallback={
-          <div>
-            Loading post...
-            <div>
-              <Spinner />
-            </div>
-          </div>
-        }
-      >
+      <Suspense fallback={<PostShowSkeleton />}>
         <PostShow fetchPost={() => findPostById(postId)} />
       </Suspense>
       <CommentCreateForm postId={postId} topicSlug={slug} startOpen />

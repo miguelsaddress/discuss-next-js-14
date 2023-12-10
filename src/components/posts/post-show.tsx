@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default async function PostShow({ fetchPost }: Props) {
-  // await new Promise((r) => setTimeout(r, 5500));
+  await new Promise((r) => setTimeout(r, 2500));
 
   const post = await fetchPost();
 
