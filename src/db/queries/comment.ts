@@ -23,7 +23,6 @@ export type CommentWithData = Comment & {
 };
 
 export const fetchCommentsByPostId = cache(async (postId: string): Promise<CommentWithData[]> => {
-  console.log('Making a query!');
   return db.comment.findMany({
     where: {
       postId,

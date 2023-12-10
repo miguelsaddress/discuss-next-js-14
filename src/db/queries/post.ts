@@ -52,3 +52,24 @@ export async function fetchTopPosts(): Promise<PostWithData[]> {
     take: 5,
   });
 }
+
+export async function fetchPostByTerm(term: string): Promise<PostWithData[]> {
+  if (!term) return [];
+
+  return db.post.findMany({
+    // order by comment count desc, take top 5
+    orderBy: {
+      comments: {
+        _count: 'desc',
+      },
+    },
+    include: {
+      user: { select: { name: true } },
+      topic: { select: { slug: true } },
+      _count: { select: { comments: true } },
+    },
+    where: {
+      OR: [{ title: { contains: term } }, { content: { contains: term } }, { topic: { slug: { contains: term } } }],
+    },
+  });
+}
