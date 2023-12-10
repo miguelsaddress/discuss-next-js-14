@@ -18,7 +18,5 @@ export async function searchPosts(formData: FormData): Promise<CreatePostFormSta
     redirect(paths.home());
   }
 
-  const posts: PostWithData[] = await fetchPostByTerm(term);
-  console.log('POSTS ', posts);
   redirect(paths.postSearch(term));
 }
